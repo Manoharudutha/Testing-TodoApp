@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const todoList = () => {
   all = [];
   const add = (todoItem) => {
@@ -12,7 +13,7 @@ const todoList = () => {
       return d.toISOString().split("T")[0];
     };
 
-    var dateToday = new Date();
+    let dateToday = new Date();
     const yesterday = formattedDate(
       new Date(new Date().setDate(dateToday.getDate() - 1))
     );
@@ -28,7 +29,7 @@ const todoList = () => {
       return d.toISOString().split("T")[0];
     };
 
-    var dateToday = new Date();
+    let dateToday = new Date();
     const today = formattedDate(dateToday);
 
     let arr = all.filter((x) => {
@@ -43,7 +44,7 @@ const todoList = () => {
       return d.toISOString().split("T")[0];
     };
 
-    var dateToday = new Date();
+    let dateToday = new Date();
     const tomorrow = formattedDate(
       new Date(new Date().setDate(dateToday.getDate() + 1))
     );
