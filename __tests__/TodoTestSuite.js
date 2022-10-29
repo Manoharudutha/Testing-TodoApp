@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const todoList = require("../todo");
 const {
   all,
@@ -9,6 +8,11 @@ const {
   dueLater,
   toDisplayableList,
 } = todoList();
+const dateToday = new Date();
+const formattedDate = (d) => {
+  return d.toISOString().split("T")[0];
+};
+const today = formattedDate(dateToday);
 
 describe("Todo Application Test Suite", () => {
   beforeAll(() => {
@@ -25,12 +29,36 @@ describe("Todo Application Test Suite", () => {
       new Date(new Date().setDate(dateToday.getDate() + 1))
     );
 
-    add({ title: "Todo Application Test", dueDate: today, completed: false });
-    add({ title: "Submit assignment", dueDate: yesterday, completed: false });
-    add({ title: "Pay rent", dueDate: today, completed: true });
-    add({ title: "Service Vehicle", dueDate: today, completed: false });
-    add({ title: "File taxes", dueDate: tomorrow, completed: false });
-    add({ title: "Pay electric bill", dueDate: tomorrow, completed: false });
+    add({
+      title: "Todo Application Test",
+      dueDate: new Date("2022-10-20"),
+      completed: false,
+    });
+    add({
+      title: "Submit assignment",
+      dueDate: new Date("2021-12-21"),
+      completed: false,
+    });
+    add({
+      title: "Pay rent",
+      dueDate: today,
+      completed: true,
+    });
+    add({
+      title: "Service Vehicle",
+      dueDate: today,
+      completed: false,
+    });
+    add({
+      title: "File taxes",
+      dueDate: new Date("2022-12-09"),
+      completed: false,
+    });
+    add({
+      title: "Pay electric bill",
+      dueDate: new Date("2022-11-21"),
+      completed: false,
+    });
   });
 
   test("Should add a new item", () => {
@@ -50,23 +78,29 @@ describe("Todo Application Test Suite", () => {
   });
 
   test("Should retrieve a overdue items", () => {
-    let overDueItems = null;
-    expect(overDueItems).toBe(null);
     overDueItems = overdue();
-    expect(typeof overDueItems).toBe("object");
+    expect(
+      overDueItems.every((todo) => {
+        return todo.dueDate < today;
+      })
+    ).toBe(true);
   });
 
   test("Should retrieve a due today items", () => {
-    let dueTodayItems = null;
-    expect(dueTodayItems).toBe(null);
     dueTodayItems = dueToday();
-    expect(typeof dueTodayItems).toBe("object");
+    expect(
+      dueTodayItems.every((todo) => {
+        return todo.dueDate === today;
+      })
+    ).toBe(true);
   });
 
   test("Should retrieve a due later items", () => {
-    let dueLaterItems = null;
-    expect(dueLaterItems).toBe(null);
     dueLaterItems = dueLater();
-    expect(typeof dueLaterItems).toBe("object");
+    expect(
+      dueLaterItems.every((todo) => {
+        return todo.dueDate > today;
+      })
+    ).toBe(true);
   });
 });
